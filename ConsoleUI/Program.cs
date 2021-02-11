@@ -11,30 +11,65 @@ namespace ConsoleUI
         {
 
             //Veri Tabanımızdaki kayıtlı arabaları listeler.
-            CarList();
-            Console.WriteLine("-------------------------");
+            //CarList();
+
             //AddCarTest();
-            Console.WriteLine("-------------------------");
+
             //CarDeleteTest();
-            Console.WriteLine("-------------------------");
+
             //CarUpdateTest();
+
+            //ValidationTest();
+
+            //GetByIdTest();
+
+            //AddUserTest();
             Console.WriteLine("-------------------------");
-            ValidationTest();
-            GetByIdTest();
+            //UserList();
+            Console.WriteLine("-------------------------");
+            //CustomerList();
+            //Console.WriteLine("-------------------------");
+            //RentalList();
 
-            //BrandManager brandManager = new BrandManager(new EfBrandDal());
-            //brandManager.Add(new Brand{Name="Volkswagen" });
-            //foreach (var brand in brandManager.GetAll())
-            //{
-            //    Console.WriteLine(brand.Id+" / "+brand.Name);
-            //}
 
-            //CarManager carManager = new CarManager(new EfCarDal());
-            //foreach (var car in carManager.GetCarDetails())
-            //{
+        }
 
-            //    Console.WriteLine("{0} / {1} / {2} / {3} / ",car.Id,car.BrandName,car.ColorName,car.DailyPrice);
-            //}
+        private static void AddUserTest()
+        {
+            UserManager userManager = new UserManager(new EfUserDal());
+            var result=userManager.Add(new User { FirstName="Yufka ",LastName="Yeşiltaş",Email="yufkayesiltas@hotmail.com",Password="yufka123"
+            
+            });
+            Console.WriteLine(result.Message);
+            
+        }
+
+        private static void RentalList()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            foreach (var rental in rentalManager.GetAll().Data)
+            {
+                Console.WriteLine("{0} / {1} / {2} / {3} ",rental.Id,rental.CarId,rental.CustomerId,rental.RentDate);
+            }
+        }
+
+        private static void CustomerList()
+        {
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            foreach (var customer in customerManager.GetAll().Data)
+            {
+                Console.WriteLine(customer.CompanyName);
+            }
+        }
+
+        private static void UserList()
+        {
+            UserManager userManager = new UserManager(new EfUserDal());
+            var result = userManager.GetAll();
+            foreach (var user in result.Data)
+            {
+                Console.WriteLine(user.FirstName);
+            }
 
         }
 
