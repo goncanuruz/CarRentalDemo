@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -15,37 +17,50 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        public void Add(Brand entity)
+        public IResult Add(Brand entity)
         {
-            if (entity.Name.Length>=2)
+            if (entity.Name.Length >= 2)
             {
                 _brandDal.Add(entity);
+                return new SuccessResult(Messages.AddedMessage);
             }
             else
             {
-                Console.WriteLine("Araba ismi minimum 2 karakterli olmalı");
+                return new ErrorResult(Messages.CarNameInvalid);
             }
+            
         }
 
-        public void Delete(Brand entity)
+        public IResult Delete(Brand entity)
         {
             _brandDal.Delete(entity);
+            return new SuccessResult(Messages.DeletedMessage);
         }
 
-        public List<Brand> GetAll()
+        public IDataResult<List<Brand>> GetAll()
         {
-            return _brandDal.GetAll();
+            if (DateTime.Now.Hour==18)
+            {
+                return new ErrorDataResult<List<Brand>>(Messages.MaintenanceTime);
+            }
+            else
+            {
+                _brandDal.GetAll();
+                return new SuccessDataResult<List<Brand>>(_brandDal.GetAll());
+            }
+
         }
 
-        public Brand GetById(int brandId)
+        public IDataResult<Brand> GetById(int brandId)
         {
-            return _brandDal.Get(b => b.Id == brandId);
+            return new SuccessDataResult<Brand>(_brandDal.Get(b => b.Id == brandId));
 
         }
 
-        public void Update(Brand entity)
+        public IResult Update(Brand entity)
         {
             _brandDal.Update(entity);
+            return new SuccessResult(Messages.UpdatedMessage);
         }
     }
 }

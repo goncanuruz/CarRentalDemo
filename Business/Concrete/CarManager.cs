@@ -1,9 +1,12 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Business.Concrete
@@ -15,41 +18,45 @@ namespace Business.Concrete
         {
             _carDal = carDal;
         }
-        public void Add(Car entity)
+        public IResult Add(Car entity)
         {
             if (entity.Name.Length>2 &&entity.DailyPrice>0)
             {
                 _carDal.Add(entity);
+                return new SuccessResult(Messages.AddedMessage);
             }
             else
             {
-                Console.WriteLine("Daily Price is not 0 and Car Name is min 2 character!");
+                return new ErrorResult(Messages.CarNameInvalid);
             }
         }
 
-        public void Delete(Car entity)
+        public IResult Delete(Car entity)
         {
             _carDal.Delete(entity);
+            return new SuccessResult(Messages.DeletedMessage);
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
-            return _carDal.GetAll();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll());
         }
 
-        public Car GetById(int carId)
+
+        public IDataResult<Car> GetById(int carId)
         {
-            return _carDal.Get(c => c.Id == carId);
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == carId));
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return _carDal.GetCarDetails();
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
         }
 
-        public void Update(Car entity)
+        public IResult Update(Car entity)
         {
             _carDal.Update(entity);
+            return new SuccessResult(Messages.UpdatedMessage);
         }
     }
 }

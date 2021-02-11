@@ -11,7 +11,7 @@ namespace ConsoleUI
         {
 
             //Veri Tabanımızdaki kayıtlı arabaları listeler.
-            //CarList();
+            CarList();
             Console.WriteLine("-------------------------");
             //AddCarTest();
             Console.WriteLine("-------------------------");
@@ -19,8 +19,8 @@ namespace ConsoleUI
             Console.WriteLine("-------------------------");
             //CarUpdateTest();
             Console.WriteLine("-------------------------");
-            //ValidationTest();
-            //GetByIdTest();
+            ValidationTest();
+            GetByIdTest();
 
             //BrandManager brandManager = new BrandManager(new EfBrandDal());
             //brandManager.Add(new Brand{Name="Volkswagen" });
@@ -29,12 +29,12 @@ namespace ConsoleUI
             //    Console.WriteLine(brand.Id+" / "+brand.Name);
             //}
 
-            CarManager carManager = new CarManager(new EfCarDal());
-            foreach (var car in carManager.GetCarDetails())
-            {
+            //CarManager carManager = new CarManager(new EfCarDal());
+            //foreach (var car in carManager.GetCarDetails())
+            //{
 
-                Console.WriteLine("{0} / {1} / {2} / {3} / ",car.Id,car.BrandName,car.ColorName,car.DailyPrice);
-            }
+            //    Console.WriteLine("{0} / {1} / {2} / {3} / ",car.Id,car.BrandName,car.ColorName,car.DailyPrice);
+            //}
 
         }
 
@@ -42,13 +42,13 @@ namespace ConsoleUI
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             var result = brandManager.GetById(1);
-            Console.WriteLine(result.Name);
+            Console.WriteLine(result.Data.Name);
         }
 
         private static void ValidationTest()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            carManager.Add(new Car
+            var result= carManager.Add(new Car
             {
                 BrandId = 2,
                 ColorId = 1,
@@ -57,12 +57,23 @@ namespace ConsoleUI
                 ModelYear = 2014,
                 DailyPrice = 0
             });
+            if (result.Success == true)
+            {
+                Console.WriteLine(result.Message);
+                Console.WriteLine("--");
+                CarList();
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+
         }
 
         private static void CarUpdateTest()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            carManager.Update(new Car { Id = 5, DailyPrice = 260, BrandId = 5, Description = "Otomatik", Name = "Hyundai Accent", ModelYear = 2015, ColorId = 1 });
+            carManager.Update(new Car { Id = 5, DailyPrice = 300, BrandId = 5, Description = "Otomatik", Name = "Hyundai Accent", ModelYear = 2015, ColorId = 1 });
             CarList();
         }
 
@@ -91,7 +102,8 @@ namespace ConsoleUI
         private static void CarList()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            foreach (var c in carManager.GetAll())
+            var result = carManager.GetAll();
+            foreach (var c in result.Data)
             {
                 Console.WriteLine("{0} / {1} / {2} / {3} / {4}",c.Id, c.Name, c.Description, c.ModelYear, c.DailyPrice);
             }
