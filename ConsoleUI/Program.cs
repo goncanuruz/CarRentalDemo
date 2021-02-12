@@ -10,7 +10,7 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
 
-            //Veri Tabanımızdaki kayıtlı arabaları listeler.
+            
             //CarList();
 
             //AddCarTest();
@@ -24,13 +24,29 @@ namespace ConsoleUI
             //GetByIdTest();
 
             //AddUserTest();
-            Console.WriteLine("-------------------------");
+            
             //UserList();
-            Console.WriteLine("-------------------------");
+            
             //CustomerList();
-            //Console.WriteLine("-------------------------");
+            
             //RentalList();
 
+            //RentalDetailsList();
+
+
+        }
+
+        private static void RentalDetailsList()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            var result = rentalManager.GetRentalDetail();
+            foreach (var rentaldto in result.Data)
+            {
+                Console.WriteLine("{0} / {1} / {2} / {3} / {4} / {5} / {6} / {7} / {8}",
+                    rentaldto.UserId,rentaldto.RentalId,rentaldto.FirstName,
+                    rentaldto.LastName,rentaldto.Email,rentaldto.CarName,
+                    rentaldto.DailyPrice,rentaldto.RentDate,rentaldto.ReturnDate);
+            }
 
         }
 
