@@ -19,7 +19,7 @@ namespace Business.Concrete
 
         public IResult Add(Brand entity)
         {
-            if (entity.Name.Length >= 2)
+            if (entity.Name.Length > 2)
             {
                 _brandDal.Add(entity);
                 return new SuccessResult(Messages.AddedMessage);

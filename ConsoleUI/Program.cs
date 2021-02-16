@@ -10,7 +10,7 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
 
-            
+
             //CarList();
 
             //AddCarTest();
@@ -19,16 +19,16 @@ namespace ConsoleUI
 
             //CarUpdateTest();
 
-            //ValidationTest();
+            ValidationTest();
 
             //GetByIdTest();
 
             //AddUserTest();
-            
+
             //UserList();
-            
+
             //CustomerList();
-            
+
             //RentalList();
 
             //RentalDetailsList();
@@ -39,7 +39,7 @@ namespace ConsoleUI
         private static void RentalDetailsList()
         {
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
-            var result = rentalManager.GetRentalDetail();
+            var result = rentalManager.GetRentalDetails();
             foreach (var rentaldto in result.Data)
             {
                 Console.WriteLine("{0} / {1} / {2} / {3} / {4} / {5} / {6} / {7} / {8}",
