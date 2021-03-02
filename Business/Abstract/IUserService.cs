@@ -10,7 +10,7 @@ namespace Business.Abstract
     public interface IUserService
     {
         IDataResult<List<User>> GetAll();
-        IDataResult<User> GetByEmail(int email);
+        IDataResult<User> GetByEmail(string email);
         IResult Add(User user);
         IResult Delete(User user);
         IResult Update(User user);
