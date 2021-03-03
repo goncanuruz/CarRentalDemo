@@ -17,11 +17,23 @@ namespace Business.Concrete
         {
             _userDal = userDal;
         }
+
+        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        {
+            return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
+        }
+
         public IResult Add(User user)
         {
             _userDal.Add(user);
-            return new SuccessResult(Messages.AddedMessage);
+            return new SuccessResult();
         }
+
+        public IDataResult<User> GetByMail(string email)
+        {
+            return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
+        }
+    
 
         public IResult Delete(User user)
         {
@@ -34,16 +46,6 @@ namespace Business.Concrete
             return new SuccessDataResult<List<User>>(_userDal.GetAll());
         }
 
-        public IDataResult<User> GetByEmail(string email)
-        {
-            return new SuccessDataResult<User>(_userDal.Get(u=>u.Email==email));
-        }
-
-        public IDataResult<List<OperationClaim>> GetClaims(User user)
-        {
-
-            return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
-        }
 
         public IResult Update(User user)
         {
