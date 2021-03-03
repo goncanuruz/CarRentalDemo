@@ -27,7 +27,8 @@ namespace Business.Concrete
 
         public IDataResult<AccessToken> CreateAccessToken(User user)
         {
-            throw new NotImplementedException();
+            var claims=_userService.ge
+            _tokenHelper.CreateToken(user,);
         }
 
         public IDataResult<User> Login(UserForLoginDto userForLoginDto, string password)
@@ -48,7 +49,7 @@ namespace Business.Concrete
 
             byte[] passwordHash;
             byte[] passwordSalt;
-            HashingHelper.CreatePasswordHash(password, out passwordHash, passwordSalt);
+            HashingHelper.CreatePasswordHash(password, out passwordHash,out passwordSalt);
             var user = new User
             {
                 Email = userForRegisterDto.Email,
