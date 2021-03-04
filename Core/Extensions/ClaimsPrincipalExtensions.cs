@@ -13,10 +13,10 @@ namespace Core.Extensions
             var result = claimsPrincipal?.FindAll(claimType)?.Select(x => x.Value).ToList();
             return result;
         }
-        public static List<string> ClaimsRoles(this ClaimsPrincipal claimsPrincipal)
+
+        public static List<string> ClaimRoles(this ClaimsPrincipal claimsPrincipal)
         {
             return claimsPrincipal?.Claims(ClaimTypes.Role);
-        
         }
 
     }

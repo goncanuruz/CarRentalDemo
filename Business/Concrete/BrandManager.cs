@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -16,7 +17,7 @@ namespace Business.Concrete
         {
             _brandDal = brandDal;
         }
-
+        [SecuredOperation("Admin")]
         public IResult Add(Brand entity)
         {
             if (entity.Name.Length > 2)
@@ -30,13 +31,15 @@ namespace Business.Concrete
             }
             
         }
-
+        [SecuredOperation("Admin")]
         public IResult Delete(Brand entity)
         {
             _brandDal.Delete(entity);
             return new SuccessResult(Messages.DeletedMessage);
         }
 
+
+        [SecuredOperation("Admin")]
         public IDataResult<List<Brand>> GetAll()
         {
             if (DateTime.Now.Hour==18)
@@ -56,7 +59,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Brand>(_brandDal.Get(b => b.Id == brandId));
 
         }
-
+        [SecuredOperation("Admin")]
         public IResult Update(Brand entity)
         {
             _brandDal.Update(entity);

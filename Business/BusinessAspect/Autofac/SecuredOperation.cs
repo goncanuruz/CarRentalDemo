@@ -13,6 +13,7 @@ namespace Business.BusinessAspects.Autofac
 {
     public class SecuredOperation : MethodInterception
     {
+            
         private string[] _roles;
         private IHttpContextAccessor _httpContextAccessor;
 
@@ -25,7 +26,7 @@ namespace Business.BusinessAspects.Autofac
 
         protected override void OnBefore(IInvocation invocation)
         {
-            var roleClaims = _httpContextAccessor.HttpContext.User.ClaimsRoles();
+            var roleClaims = _httpContextAccessor.HttpContext.User.ClaimRoles();
             foreach (var role in _roles)
             {
                 if (roleClaims.Contains(role))
@@ -33,7 +34,7 @@ namespace Business.BusinessAspects.Autofac
                     return;
                 }
             }
-            throw new Exception("Authorization denied.");
+            throw new Exception("Authorization Denied");
         }
     }
 }
