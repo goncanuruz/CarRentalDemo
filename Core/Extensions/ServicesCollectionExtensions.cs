@@ -8,7 +8,7 @@ namespace Core.Extensions
 {
     public static class ServicesCollectionExtensions
     {
-        public static IServiceCollection AddDepedencyResolvers
+        public static IServiceCollection AddDependencyResolvers
             (this IServiceCollection serviceCollection,ICoreModule[]modules)
         {
             foreach (var module in modules)

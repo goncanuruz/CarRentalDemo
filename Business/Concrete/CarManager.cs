@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation.FluentValidation;
 using Core.Utilities.Results;
@@ -23,6 +25,7 @@ namespace Business.Concrete
             _carDal = carDal;
         }
         [ValidationAspect(typeof(CarValidator))]
+        
         public IResult Add(Car entity)
         {
             _carDal.Add(entity);
@@ -35,14 +38,14 @@ namespace Business.Concrete
             _carDal.Delete(entity);
             return new SuccessResult(Messages.DeletedMessage);
         }
-
+        [SecuredOperation("car.list")]
         public IDataResult<List<Car>> GetAll()
         {
 
             return new SuccessDataResult<List<Car>>(_carDal.GetAll());
         }
 
-
+        [CacheAspect]
         public IDataResult<Car> GetById(int carId)
         {
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == carId));
