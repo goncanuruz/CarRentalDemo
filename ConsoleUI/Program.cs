@@ -11,8 +11,8 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
 
-            UserManager userManager = new UserManager(new EfUserDal());
-            userManager.Delete(new User { Id=3});
+            //UserManager userManager = new UserManager(new EfUserDal());
+            //userManager.Delete(new User { Id=3});
 
             //CarList();
 
@@ -22,7 +22,7 @@ namespace ConsoleUI
 
             //CarUpdateTest();
 
-            ValidationTest();
+            //ValidationTest();
 
             //GetByIdTest();
 
@@ -35,20 +35,22 @@ namespace ConsoleUI
             //RentalList();
 
             //RentalDetailsList();
+            CarBrand();
 
 
         }
 
         private static void RentalDetailsList()
         {
-            RentalManager rentalManager = new RentalManager(new EfRentalDal());
-            var result = rentalManager.GetRentalDetails();
-            foreach (var rentaldto in result.Data)
+            EfRentalDal efRentalDal = new EfRentalDal();
+
+            var result = efRentalDal.GetRentalDetails();
+            foreach (var rentaldto in result)
             {
-                Console.WriteLine("{0} / {1} / {2} / {3} / {4} / {5} / {6} / {7} / {8}",
-                    rentaldto.UserId,rentaldto.RentalId,rentaldto.FirstName,
-                    rentaldto.LastName,rentaldto.Email,rentaldto.CarName,
-                    rentaldto.DailyPrice,rentaldto.RentDate,rentaldto.ReturnDate);
+                Console.WriteLine("{0} / {1} / {2} / {3} / {4}",
+                    rentaldto.CarId,rentaldto.CarName,
+                 rentaldto.CarName,
+                   rentaldto.RentDate,rentaldto.ReturnDate);
             }
 
         }
@@ -122,11 +124,14 @@ namespace ConsoleUI
             CarList();
         }
 
-        private static void CarDeleteTest()
+        private static void CarBrand()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            carManager.Delete(new Car { Id = 8 });
-            CarList();
+            var result =carManager.GetByBrandId(2);
+            foreach (var car in result.Data)
+            {
+                Console.WriteLine(car.BrandId);
+            }
         }
 
         private static void AddCarTest()
@@ -147,10 +152,10 @@ namespace ConsoleUI
         private static void CarList()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            var result = carManager.GetAll();
+            var result = carManager.GetCarDetails();
             foreach (var c in result.Data)
             {
-                Console.WriteLine("{0} / {1} / {2} / {3} / {4}",c.Id, c.Name, c.Description, c.ModelYear, c.DailyPrice);
+                Console.WriteLine("{0} / {1} / {2} / {3} / {4}",c.Id, c.BrandName, c.ColorName, c.ModelYear, c.Name);
             }
         }
     }

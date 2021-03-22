@@ -38,11 +38,20 @@ namespace Business.Concrete
             _carDal.Delete(entity);
             return new SuccessResult(Messages.DeletedMessage);
         }
-        [SecuredOperation("car.list")]
+        //[SecuredOperation("car.list")]
         public IDataResult<List<Car>> GetAll()
         {
 
             return new SuccessDataResult<List<Car>>(_carDal.GetAll());
+        }
+
+        public IDataResult<List<Car>> GetByBrandId(int brandId)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p=>p.BrandId==brandId));
+        }
+        public IDataResult<List<Car>> GetByColorId(int colorId)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.ColorId == colorId));
         }
 
         [CacheAspect]

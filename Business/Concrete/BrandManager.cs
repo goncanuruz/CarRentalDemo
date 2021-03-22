@@ -39,18 +39,12 @@ namespace Business.Concrete
         }
 
 
-        [SecuredOperation("Admin")]
+        //[SecuredOperation("Admin")]
         public IDataResult<List<Brand>> GetAll()
         {
-            if (DateTime.Now.Hour==18)
-            {
-                return new ErrorDataResult<List<Brand>>(Messages.MaintenanceTime);
-            }
-            else
-            {
                 _brandDal.GetAll();
                 return new SuccessDataResult<List<Brand>>(_brandDal.GetAll());
-            }
+            
 
         }
 
