@@ -24,34 +24,32 @@ namespace Business.Concrete
 
         public IResult Add(IFormFile file,CarImage carImage)
         {
-            //var result = BusinessRules.Run(CheckIfCarImageLimitExceded(carImage.CarId));
-            //if (result!=null)
-            //{
-            //    return result;
-            //}
-            var imageResult = ImageFileHelper.Upload(file);
-            carImage.ImagePath = imageResult.Message;
+            var result = BusinessRules.Run(CheckIfCarImageLimitExceded(carImage.CarId));
+            if (result != null)
+            {
+                return result;
+            }
+
+            carImage.ImagePath = ImageFileHelper.Add(file);
             carImage.Date = DateTime.Now;
             _carImageDal.Add(carImage);
-            return new SuccessResult(Messages.AddedMessage);
-
-        }
-
-        
-        public IResult Update(IFormFile file, CarImage carImage)
-        {
-          
-            _carImageDal.Update(carImage);
             return new SuccessResult();
 
         }
 
+        
+        public IResult Update(IFormFile formFile, CarImage carImage)
+        {
+            carImage.Date = DateTime.Now;
+            carImage.ImagePath = ImageFileHelper.Update(_carImageDal.Get(c => c.CarId == carImage.CarId).ImagePath, formFile);
+            _carImageDal.Update(carImage);
+            return new SuccessResult();
+        }
+
        
-        public IResult Delete(IFormFile file,CarImage carImage)
+        public IResult Delete(CarImage carImage)
         {
           
-
-
             _carImageDal.Delete(carImage);
             return new SuccessResult();
         }
